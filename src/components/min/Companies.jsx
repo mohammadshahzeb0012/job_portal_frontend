@@ -3,7 +3,7 @@ import Navbar from "../shared/Navbar"
 import { Button } from "../ui/button"
 import { Input } from "../ui/input"
 import CompaniesTable from "./CompaniesTable"
-import UseGetAllCompanies from "@/hooks/useGetAllCompanies"
+import UseGetAllCompanies from "./../../hooks/UseGetAllCompanies"
 import { useDispatch } from "react-redux"
 import { setSearchCompanyByText } from "@/redux/companySlice"
 
