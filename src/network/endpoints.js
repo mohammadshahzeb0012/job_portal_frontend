@@ -1,5 +1,5 @@
 
-const bASE_URL = 'http://localhost:8000'
+const bASE_URL = 'https://job-portal-backend-gwa2.onrender.com'
 
 const Endpoints = {
     register: `${bASE_URL}/api/v1/user/register`,
