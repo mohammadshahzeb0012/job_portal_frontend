@@ -3,36 +3,47 @@ import Job from "./Job";
 import Navbar from "./shared/Navbar";
 import { useDispatch, useSelector } from "react-redux";
 import Footer from "./shared/Footer";
-import { useEffect, useState } from "react";
-import { setSearchedQuery } from "@/redux/jobSlice";
+import { useCallback, useEffect, useState } from "react";
+import { setSaveForLater, setSearchedQuery } from "@/redux/jobSlice";
 import FilterCard from "./FilterCard";
 import { Filter, X } from "lucide-react";
 import axios from "axios";
 import Endpoints from "@/network/endpoints";
+import { toast } from "sonner";
 
 const Browse = () => {
     useGetAllJobs()
     const dispatch = useDispatch()
     const { allJobs } = useSelector(store => store.jobs)
     const [open, setopen] = useState(false)
-
+    const [loading,setloading] = useState(false)
+    
     useEffect(() => {
         return () => {
             dispatch(setSearchedQuery(""))
         }
     }, [])
 
-    const handelSveForLAter = async (jobId) => {
+    const handelSveForLAter = useCallback( async (jobId, currentSaveForLaterStatus) => {
         try {
+            setloading(true)
+            const types = !currentSaveForLaterStatus;
             const res = await axios.post(`${Endpoints.save_for_later}`, {
                 jobId: jobId
             }, { withCredentials: true })
-            console.log(res)
+            dispatch(setSaveForLater({ jobId, types }))
+            if (res.status === 201) {
+                toast.success("Job saved success!")
+            } else if (res.status === 200) {
+                toast.success("Job removed success!")
+            }
         } catch (error) {
-           console.log(error)
+            toast.error(error?.response?.data?.message ? error?.response?.data?.message : "Something went wrong")
+        }finally{
+            setloading(false)
         }
 
-    }
+    },[])
 
     return (
         <div>
@@ -65,7 +76,7 @@ const Browse = () => {
                                 allJobs &&
                                 allJobs?.map((job) => {
                                     return (
-                                        <Job key={job._id} job={job} handelSveForLAter={handelSveForLAter} />
+                                        <Job key={job._id} job={job} handelSveForLAter={handelSveForLAter} loading={loading} />
                                     )
                                 })
                             }

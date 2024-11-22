@@ -1,4 +1,4 @@
-import { createSlice }  from  "@reduxjs/toolkit";
+import { createSlice } from "@reduxjs/toolkit";
 
 const jobSlice = createSlice({
     name: "job",
@@ -28,17 +28,25 @@ const jobSlice = createSlice({
         },
         setSearchedQuery: (state, action) => {
             state.searchedQuery = action.payload;
+        },
+        setSaveForLater: (state, action) => { 
+            state.allJobs.forEach((job)=>{
+                if(job._id === action.payload.jobId){
+                    job.saveForLater = action.payload.types
+                }
+            })
         }
     }
 })
 
 export const {
-    setAllJobs, 
-    setSingleJob, 
+    setAllJobs,
+    setSingleJob,
     setAllAdminJobs,
-    setSearchJobByText, 
+    setSearchJobByText,
     setAllAppliedJobs,
-    setSearchedQuery
+    setSearchedQuery,
+    setSaveForLater
 } = jobSlice.actions
 
 export default jobSlice

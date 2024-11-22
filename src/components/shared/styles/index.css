@@ -1,0 +1,13 @@
+.mobile-nav-items {
+    display: none;
+}
+
+@media screen and (max-width: 500px) {
+    .deskop-nav-items {
+        display: none !important;
+    }
+
+    .mobile-nav-items {
+        display: block;
+    }
+}

@@ -1,27 +1,27 @@
-import {  Bookmark } from "lucide-react"
+import { Bookmark } from "lucide-react"
 import { Button } from "./ui/button"
 import { Avatar, AvatarImage } from "@radix-ui/react-avatar"
 import { Badge } from "./ui/badge"
 import { useNavigate } from "react-router-dom"
 import EpochToHuman from "@/utils/EpochToHuman"
 
-const Job = ({job,handelSveForLAter}) => {
+const Job = ({ job, handelSveForLAter, loading }) => {
     const navigate = useNavigate()
-    
     return (
         <div className='p-5 rounded-md shadow-xl bg-white border border-gray-100'>
             <div className='flex items-center justify-between'>
                 <p className='text-sm text-gray-500'>{EpochToHuman(job?.createdAt)}</p>
-                <Button  
-                onClick={()=>handelSveForLAter(job._id)}
-                variant="outline" 
-                className="rounded-full" size="icon" 
-                id={job._id}><Bookmark /></Button>
+                <Button
+
+                    onClick={() => handelSveForLAter(job._id, job.saveForLater)}
+                    variant="outline"
+                    className={`rounded-full ${job.saveForLater && "bg-green-400"}`} size="icon"
+                    id={job._id}><Bookmark /></Button>
             </div>
             <div className='flex items-center gap-2 my-2'>
-                <Button className="p-6" variant="outline" size="icon">
+                <Button className="p-1" variant="outline" size="icon">
                     <Avatar>
-                    <AvatarImage src={job?.company?.logo} />
+                        <AvatarImage src={job?.company?.logo} alt={`${job?.company?.name} logo`} />
                     </Avatar>
                 </Button>
                 <div>
@@ -38,11 +38,12 @@ const Job = ({job,handelSveForLAter}) => {
                 <Badge className={'text-[#F83002] font-bold'} variant="ghost">{job?.jobType}</Badge>
                 <Badge className={'text-[#7209b7] font-bold'} variant="ghost">{job?.salary}LPA</Badge>
             </div>
-            <div className='flex items-center gap-4 mt-4'>
-                <Button onClick={()=>navigate(`/description/${job?._id}`)}  variant="outline">Details</Button>
-                <Button 
-                onClick={()=>handelSveForLAter(job._id)}
-                className="bg-[#7209b7]">Save For Later</Button>
+            <div className='flex justify-between items-center gap-4 mt-4'>
+                <Button onClick={() => navigate(`/description/${job?._id}`)} variant="outline">Details</Button>
+                <Button
+                    disabled={loading}
+                    onClick={() => handelSveForLAter(job._id, job.saveForLater)}
+                    className={`${job?.saveForLater ? "bg-green-400" : "bg-[#7209b7]"} `}>{job?.saveForLater ? "Saved" : "Save for Later"}</Button>
             </div>
         </div>
     )

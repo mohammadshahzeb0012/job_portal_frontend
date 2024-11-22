@@ -10,6 +10,7 @@ import Navbar from "./shared/Navbar"
 import { toast } from "sonner"
 import LatestJobs from "./LatestJobs"
 import Footer from "./shared/Footer"
+import "./styles/index.css"
 
 const JobDescription = () => {
     const params = useParams()
@@ -53,7 +54,7 @@ const JobDescription = () => {
         <>
             <Navbar />
             <div className='max-w-7xl mx-auto my-10'>
-                <div className='flex items-center justify-between'>
+                <div className=' job-description-head flex items-center justify-between'>
                     <div>
                         <h1 className='font-bold text-xl'>{singleJob?.title}</h1>
                         <div className='flex items-center gap-2 mt-4'>

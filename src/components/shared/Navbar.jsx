@@ -5,14 +5,14 @@ import {
     PopoverTrigger,
 } from "@/components/ui/popover"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
-import { LogOut, User2 } from "lucide-react"
+import { Briefcase, Chrome, House, LogOut, User2 } from "lucide-react"
 import { Link, useNavigate } from "react-router-dom"
 import { useDispatch, useSelector } from "react-redux"
 import axios from "axios"
 import Endpoints from "@/network/endpoints"
 import { setUser } from "@/redux/authSlice"
 import { toast } from "sonner"
-
+import "./styles/index.css"
 
 const Navbar = () => {
     const navigte = useNavigate()
@@ -34,8 +34,7 @@ const Navbar = () => {
     return (
 
         <div className='bg-white'>
-            <div className='flex items-center justify-between mx-auto max-w-7xl h-16'>
-
+            <div className='flex items-center justify-between mx-auto max-w-7xl h-16 px-5'>
                 <div>
                     <Link to={'/'}><h1 className='text-2xl font-bold'>Dreamo<span className='text-[#F83002]'>Jobs</span></h1></Link>
                 </div>
@@ -49,11 +48,11 @@ const Navbar = () => {
                                 </>
                             ) :
                                 (
-                                    <>
+                                    <div className="deskop-nav-items flex items-center gap-5">
                                         <Link to={'/'}>Home</Link>
                                         <Link to={'/jobs'}>Jobs</Link>
                                         <Link to={'/browse'}>Browse</Link>
-                                    </>
+                                    </div>
                                 )
                         }
                     </ul>
@@ -69,7 +68,7 @@ const Navbar = () => {
                                         <AvatarFallback>CN</AvatarFallback>
                                     </Avatar>
                                 </PopoverTrigger>
-                                <PopoverContent className="w-80">
+                                <PopoverContent className="w-30">
                                     <div className="flex gap-4 space-y-2">
                                         <Avatar className="cursor-pointer">
                                             <AvatarImage src={user?.profile?.profilePhoto} />
@@ -83,10 +82,26 @@ const Navbar = () => {
                                         <div className="flex w-fit items-center gap-2 cursor-pointer">
                                             {
                                                 user && user.role === 'student' &&
-                                                <>
-                                                    <User2 />
-                                                    <Link to={'/profile'}>   <Button variant="link">View Profile</Button></Link>
-                                                </>
+                                                <div>
+                                                    <div className="mobile-nav-items">
+                                                        <div className="flex w-fit items-center gap-2 cursor-pointer">
+                                                            <House />
+                                                            <Link to={'/'}>   <Button variant="link">Home</Button></Link>
+                                                        </div>
+                                                        <div className="flex w-fit items-center gap-2 cursor-pointer">
+                                                            <Briefcase />
+                                                            <Link to={'/jobs'}>   <Button variant="link">Jobs</Button></Link>
+                                                        </div>
+                                                        <div className="flex w-fit items-center gap-2 cursor-pointer">
+                                                            <Chrome />
+                                                            <Link to={'/browse'}>   <Button variant="link">Browse</Button></Link>
+                                                        </div>
+                                                    </div>
+                                                    <div className="flex w-fit items-center gap-2 cursor-pointer">
+                                                        <User2 />
+                                                        <Link to={'/profile'}>   <Button variant="link">View Profile</Button></Link>
+                                                    </div>
+                                                </div>
                                             }
                                         </div>
                                         <div className="flex w-fit items-center gap-2 cursor-pointer">
@@ -97,7 +112,6 @@ const Navbar = () => {
                                 </PopoverContent>
                             </Popover>
                     }
-
                 </div>
             </div>
         </div>
