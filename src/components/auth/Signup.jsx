@@ -7,7 +7,8 @@ import { Button } from "../ui/button";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import Endpoints from "@/network/endpoints";
-import { toast } from "sonner";
+import { toast } from "react-toastify";
+
 import { useSelector } from "react-redux";
 
 

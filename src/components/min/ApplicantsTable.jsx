@@ -7,7 +7,8 @@ import { useDispatch, useSelector } from "react-redux";
 import { setAllApplicants } from "@/redux/applicationSlice";
 import { Popover, PopoverContent, PopoverTrigger } from "../ui/popover";
 import { MoreHorizontal } from "lucide-react";
-import { toast } from "sonner";
+import { toast } from "react-toastify";
+
 const shortlistingStatus = ["Accepted", "Rejected"];
 
 

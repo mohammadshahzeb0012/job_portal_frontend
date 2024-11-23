@@ -7,16 +7,15 @@ import { Button } from "../ui/button";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import Endpoints from "@/network/endpoints";
-import { toast } from "sonner";
 import { useDispatch, useSelector } from "react-redux";
 import { setLoading, setUser } from "@/redux/authSlice";
 import { Loader2 } from "lucide-react";
 import Cookies from 'js-cookie';
+import { toast } from "react-toastify";
 
 
 
 const Login = () => {
-  const {auth} = useSelector(store=>store)
 
   const [input, setInput] = useState({
     email: "",
@@ -52,10 +51,10 @@ const Login = () => {
         dispatch(setUser(res.data.user))
         Cookies.set('user_data',JSON.stringify(res.data.user))
         navigate("/")
-        toast.success(res.data.message);
       }
     } catch (error) {
-      toast.error(error.response.data.message);
+      toast.error(error?.response?.data?.message || "Someting went wrong")
+
     } finally {
       dispatch(setLoading(false));
     }

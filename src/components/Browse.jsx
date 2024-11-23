@@ -9,7 +9,7 @@ import FilterCard from "./FilterCard";
 import { Filter, X } from "lucide-react";
 import axios from "axios";
 import Endpoints from "@/network/endpoints";
-import { toast } from "sonner";
+import { toast } from "react-toastify";
 
 const Browse = () => {
     useGetAllJobs()
@@ -35,7 +35,7 @@ const Browse = () => {
             if (res.status === 201) {
                 toast.success("Job saved success!")
             } else if (res.status === 200) {
-                toast.success("Job removed success!")
+                toast.info("Job removed success!")
             }
         } catch (error) {
             toast.error(error?.response?.data?.message ? error?.response?.data?.message : "Something went wrong")

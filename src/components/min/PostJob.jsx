@@ -8,7 +8,7 @@ import { Button } from "../ui/button"
 import { Loader2 } from "lucide-react"
 import axios from "axios"
 import Endpoints from "@/network/endpoints"
-import { toast } from "sonner"
+import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom"
 
 const PostJob = () => {

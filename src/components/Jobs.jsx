@@ -1,16 +1,45 @@
 import Navbar from "./shared/Navbar"
 import FilterCard from './FilterCard.jsx'
 import Job from "./Job"
-import { useSelector } from "react-redux"
-import { useState } from "react"
+import { useDispatch, useSelector } from "react-redux"
+import { useCallback, useState } from "react"
 import { Filter, X } from "lucide-react"
 import Footer from "./shared/Footer"
 import useGetAllJobs from "@/hooks/useGetAllJobs"
+import axios from "axios"
+import Endpoints from "@/network/endpoints"
+import { setSaveForLater } from "@/redux/jobSlice"
+import { toast } from "react-toastify"
 
 const Jobs = () => {
   useGetAllJobs()
   const { allJobs } = useSelector(store => store.jobs)
   const [open, setopen] = useState(false)
+  const [loading,setloading] = useState(false)
+  const dispatch = useDispatch()
+
+  const handelSveForLAter = useCallback( async (jobId, currentSaveForLaterStatus) => {
+    try {
+        setloading(true)
+        const types = !currentSaveForLaterStatus;
+        const res = await axios.post(`${Endpoints.save_for_later}`, {
+            jobId: jobId
+        }, { withCredentials: true })
+        dispatch(setSaveForLater({ jobId, types }))
+        if (res.status === 201) {
+            toast.success("Job saved success!")
+        } else if (res.status === 200) {
+            toast.info("Job removed success!")
+        }
+    } catch (error) {
+        toast.error(error?.response?.data?.message ? error?.response?.data?.message : "Something went wrong")
+    }finally{
+        setloading(false)
+    }
+
+},[])
+
+
   return (
     <div>
       <Navbar />
@@ -42,7 +71,7 @@ const Jobs = () => {
               {
                 allJobs.length <= 0 ? <span>No Job Available</span> :
                   allJobs.map((job) => {
-                    return <Job key={job._id} job={job} />
+                    return <Job key={job._id} job={job} handelSveForLAter={handelSveForLAter} loading={loading} />
                   })
               }
             </div>

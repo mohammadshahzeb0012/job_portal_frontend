@@ -7,7 +7,7 @@ import { Loader2 } from "lucide-react"
 import { useState } from "react"
 import axios from "axios"
 import Endpoints from "@/network/endpoints"
-import { toast } from "sonner"
+import { toast } from "react-toastify";
 import { setSingleCompany } from "@/redux/companySlice"
 import { useDispatch } from "react-redux"
 

@@ -9,7 +9,8 @@ import { Loader2 } from "lucide-react"
 import axios from "axios"
 import Endpoints from "@/network/endpoints"
 import { setUser } from "@/redux/authSlice"
-import { toast } from "sonner"
+import { toast } from "react-toastify";
+
 
 const UpdateProfileDialog = ({ open, setOpen }) => {
     const dispatch = useDispatch()
@@ -57,7 +58,7 @@ const UpdateProfileDialog = ({ open, setOpen }) => {
                 toast.success(res.data.message);
             }
         } catch (error) {
-            toast.error(error.response.data.message);
+            toast.error(error?.response?.data?.message);
         } finally {
             setLoading(false);
         }

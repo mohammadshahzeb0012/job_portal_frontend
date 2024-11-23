@@ -11,13 +11,15 @@ import { useDispatch, useSelector } from "react-redux"
 import axios from "axios"
 import Endpoints from "@/network/endpoints"
 import { setUser } from "@/redux/authSlice"
-import { toast } from "sonner"
 import "./styles/index.css"
+import { toast } from "react-toastify";
+
 
 const Navbar = () => {
     const navigte = useNavigate()
     const dispatch = useDispatch()
     let user = useSelector(store => store.auth.user)
+
     const logoutHandler = async () => {
         try {
             const res = await axios.get(`${Endpoints.logout}`, { withCredentials: true })
@@ -27,12 +29,11 @@ const Navbar = () => {
                 toast.success(res.data.message)
             }
         } catch (error) {
-            toast.error(error.response.data.message)
+            toast.error(error?.response?.data?.message || "Someting went wrong")
         }
-
     }
+    
     return (
-
         <div className='bg-white'>
             <div className='flex items-center justify-between mx-auto max-w-7xl h-16 px-5'>
                 <div>

@@ -5,7 +5,8 @@ import { useDispatch, useSelector } from "react-redux"
 import axios from "axios"
 import Endpoints from "@/network/endpoints"
 import { setAllAppliedJobs } from "@/redux/jobSlice"
-import { toast } from "sonner"
+import { toast } from "react-toastify";
+
 import EpochToHuman from "@/utils/EpochToHuman"
 
 const AppliedJobTable = () => {

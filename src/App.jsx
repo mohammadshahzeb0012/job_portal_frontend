@@ -20,7 +20,9 @@ import PostJob from './components/min/PostJob'
 import NotFound from './components/NotFound'
 import ProtectAdmin from './components/min/ProtectAdmin'
 import ProtectUser from './components/ProtectUser'
+import { ToastContainer } from 'react-toastify'
 const persistore = persistStore(store);
+import 'react-toastify/dist/ReactToastify.css';
 
 
 const appRouter = createBrowserRouter([
@@ -93,6 +95,7 @@ function App() {
     <>
       <Provider store={store}>
         <PersistGate loading={null} persistor={persistore}>
+          <ToastContainer />
           <RouterProvider router={appRouter} />
         </PersistGate>
       </Provider>

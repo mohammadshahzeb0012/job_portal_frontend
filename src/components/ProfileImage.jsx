@@ -7,7 +7,9 @@ import { Loader2, User } from "lucide-react"
 import { Input } from "./ui/input"
 import axios from "axios"
 import Endpoints from "@/network/endpoints"
-import { toast } from "sonner"
+import { toast } from "react-toastify";
+
+
 import { useDispatch, useSelector } from "react-redux"
 import { setUser } from "@/redux/authSlice"
 

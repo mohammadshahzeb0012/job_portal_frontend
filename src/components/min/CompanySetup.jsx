@@ -7,7 +7,7 @@ import { ArrowLeft, Loader2 } from "lucide-react"
 import { useCallback, useEffect, useState } from "react"
 import axios from "axios"
 import Endpoints from "@/network/endpoints"
-import { toast } from "sonner"
+import { toast } from "react-toastify";
 import useGetCompanyById from "@/hooks/useGetCompanyById"
 import { useSelector } from "react-redux"
 
