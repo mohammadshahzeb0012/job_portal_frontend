@@ -1,4 +1,4 @@
-import { DialogTitle, DialogTrigger } from "@radix-ui/react-dialog"
+import { DialogTitle } from "@radix-ui/react-dialog"
 import { Dialog, DialogContent, DialogFooter, DialogHeader } from "./ui/dialog"
 import { Label } from "@radix-ui/react-label"
 import { Input } from "./ui/input"
@@ -10,11 +10,13 @@ import axios from "axios"
 import Endpoints from "@/network/endpoints"
 import { setUser } from "@/redux/authSlice"
 import { toast } from "react-toastify";
+import Cookies from "js-cookie"
 
 
 const UpdateProfileDialog = ({ open, setOpen }) => {
     const dispatch = useDispatch()
     const [loading, setLoading] = useState(false);
+    const token = Cookies.get("token")
     const { user } = useSelector(store => store.auth);
     const [input, setInput] = useState({
         fullname: user?.fullname || "",
@@ -49,7 +51,8 @@ const UpdateProfileDialog = ({ open, setOpen }) => {
             setLoading(true)
             const res = await axios.post(`${Endpoints.user_api_end_point}`, formData, {
                 headers: {
-                    'Content-Type': 'multipart/form-data'
+                    'Content-Type': 'multipart/form-data',
+                    Authorization: `Bearer: ${token}`
                 },
                 withCredentials: true
             })
@@ -141,7 +144,7 @@ const UpdateProfileDialog = ({ open, setOpen }) => {
                         </div>
                         <DialogFooter>
                             {
-                                loading ? <Button  disabled={loading}className="w-full my-4"><Loader2 className='mr-2 h-4 w-4 animate-spin' /> Please wait </Button>
+                                loading ? <Button disabled={loading} className="w-full my-4"><Loader2 className='mr-2 h-4 w-4 animate-spin' /> Please wait </Button>
                                     : <Button type="submit" className="w-full my-4">Update</Button>
                             }
                         </DialogFooter>

@@ -3,11 +3,12 @@ import { DialogTitle } from "@radix-ui/react-dialog"
 import { Dialog, DialogContent, DialogHeader } from "./ui/dialog"
 import { useState } from "react"
 import { Button } from "./ui/button"
-import { Loader2, User } from "lucide-react"
+import { Loader2 } from "lucide-react"
 import { Input } from "./ui/input"
 import axios from "axios"
 import Endpoints from "@/network/endpoints"
 import { toast } from "react-toastify";
+import Cookies from "js-cookie"
 
 
 import { useDispatch, useSelector } from "react-redux"
@@ -28,17 +29,19 @@ const ProfileImage = () => {
 
     const subMitImageHAndel = async (e) => {
         e.preventDefault();
+        const token = Cookies.get("token")
         const formData = new FormData()
         formData.append("fileIri", fileUri ? fileUri : null)
-        if(input !== null){
-            formData.append("file",input.file)
+        if (input !== null) {
+            formData.append("file", input.file)
         }
-    
+
         try {
             setLoading(true)
             const res = await axios.post(`${Endpoints.user_profile_pic}`, formData, {
                 headers: {
-                    'Content-Type': 'multipart/form-data'
+                    'Content-Type': 'multipart/form-data',
+                    Authorization: `Bearer: ${token}`
                 },
                 withCredentials: true
             })
@@ -49,7 +52,7 @@ const ProfileImage = () => {
             }
         } catch (error) {
             setOpen(false)
-            console.log("Error",error)
+            console.log("Error", error)
             // toast.error(error.response.data.message);
         } finally {
             setLoading(false);
@@ -61,8 +64,8 @@ const ProfileImage = () => {
         <div onClick={() => setOpen(true)}>
             <Avatar className="h-24 w-24">
                 {
-                    user?.profile?.profilePhoto ? <AvatarImage  src={user?.profile?.profilePhoto} alt="profile"/> :
-                     <span>NA</span>
+                    user?.profile?.profilePhoto ? <AvatarImage src={user?.profile?.profilePhoto} alt="profile" /> :
+                        <span>NA</span>
 
                 }
             </Avatar>
