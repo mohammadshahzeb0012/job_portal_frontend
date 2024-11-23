@@ -1,3 +1,5 @@
+import "./styles/index.css"
+
 const Footer = () => {
   return (
     <footer className="border-t border-t-gray-200 py-8">
@@ -5,7 +7,7 @@ const Footer = () => {
         <div className="flex flex-col md:flex-row justify-between items-start">
           <div className="mb-4 md:mb-0">
             <h2 className="text-xl font-bold">Dreamo<span className='text-[#F83002]'>Jobs</span></h2>
-            <p className="text-sm max-w-[70%]">© 2024 DreamoJobs. All rights reserved. All content and design related to DreamoJobs, including job listings, user interface elements, descriptions, and other materials, are the property of DreamoJobs. Unauthorized copying, reproduction, or distribution of this content is prohibited..</p>
+            <p className="footer-reservd-text text-sm max-w-[70%]">© 2024 DreamoJobs. All rights reserved. All content and design related to DreamoJobs, including job listings, user interface elements, descriptions, and other materials, are the property of DreamoJobs. Unauthorized copying, reproduction, or distribution of this content is prohibited..</p>
           </div>
           <div className="flex space-x-4 mt-4 md:mt-0">
             <a href="https://facebook.com" className="hover:text-gray-400" aria-label="Facebook">

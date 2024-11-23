@@ -2,4 +2,10 @@
     .job-description-head{
 
     }
+    .CategoryCarousel{
+    display: none;
+    }
+    .hero-searchbar{
+        width: 90vw !important;
+    }
 }

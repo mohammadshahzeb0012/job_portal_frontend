@@ -10,4 +10,8 @@
     .mobile-nav-items {
         display: block;
     }
+    .footer-reservd-text{
+        width: 100% !important;
+        text-align: left;
+    }
 }

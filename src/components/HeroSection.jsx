@@ -3,10 +3,12 @@ import { Button } from "./ui/button"
 import { useDispatch } from "react-redux"
 import { setSearchedQuery } from "@/redux/jobSlice"
 import { useNavigate } from "react-router-dom"
+import "./styles/index.css"
 
 const HeroSection = () => {
     const dispatch = useDispatch()
     const navigate = useNavigate()
+
     const searhHandler = (e) => {
         e.preventDefault()
         const searchQuary = e.target.searchbar.value
@@ -20,7 +22,7 @@ const HeroSection = () => {
                 <span className=' mx-auto px-4 py-2 rounded-full bg-gray-100 text-[#F83002] font-medium'>No. 1 Job Hunt Website</span>
                 <h1 className='text-5xl font-bold'>Search, Apply & <br /> Get Your <span className='text-[#6A38C2]'>Dream Jobs</span></h1>
                 <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Aliquid aspernatur temporibus nihil tempora dolor!</p>
-                <form onSubmit={searhHandler} className="flex w-[40%] shadow-lg border border-gray-200 pl-3 rounded-full items-center gap-4 mx-auto">
+                <form onSubmit={searhHandler} className="hero-searchbar flex w-[40%] shadow-lg border border-gray-200 pl-3 rounded-full items-center gap-4 mx-auto">
                     <input
                         type="text"
                         placeholder='Find your dream jobs'

@@ -8,10 +8,7 @@ import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import Endpoints from "@/network/endpoints";
 import { toast } from "react-toastify";
-
 import { useSelector } from "react-redux";
-
-
 
 const Signup = () => {
   const {user} = useSelector(store=>store.auth)
@@ -74,7 +71,7 @@ const Signup = () => {
     <div>
       <Navbar />
       <div className='flex items-center justify-center max-w-7xl mx-auto'>
-        <form onSubmit={submitHandler} className='w-1/2 border border-gray-200 rounded-md p-4 my-10'>
+        <form onSubmit={submitHandler} className='w-[90%] sm:w-[80%] md:w-1/2  border border-gray-200 rounded-md p-4 my-10'>
           <h1 className='font-bold text-xl mb-5'>Sign Up</h1>
           <div className='my-2'>
             <Label>Full Name</Label>

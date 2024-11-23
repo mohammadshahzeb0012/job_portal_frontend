@@ -6,6 +6,7 @@ import {
     CarouselNext,
     CarouselPrevious,
 } from "@/components/ui/carousel"
+import "./styles/index.css"
 
 const category = [
     "Frontend Developer",
@@ -18,7 +19,7 @@ const category = [
 const CategoryCarousel = () => {
 
     return (
-        <div>
+        <div className="CategoryCarousel">
             <Carousel className="w-full max-w-xl mx-auto my-20">
                 <CarouselContent>
                     {
