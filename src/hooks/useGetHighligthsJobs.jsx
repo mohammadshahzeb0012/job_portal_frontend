@@ -20,7 +20,6 @@ const useGetHighligthsJobs = () => {
           }
         })
         if (res.data.success) {
-          console.log(res.data)
           dispatch(setAllJobs(res.data.jobs))
         }
       } catch (error) {

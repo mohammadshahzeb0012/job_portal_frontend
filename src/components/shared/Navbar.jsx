@@ -13,24 +13,29 @@ import Endpoints from "@/network/endpoints"
 import { setUser } from "@/redux/authSlice"
 import "./styles/index.css"
 import { toast } from "react-toastify";
+import Cookies from "js-cookie"
+import { useEffect, useState } from "react"
 
 
 const Navbar = () => {
     const navigte = useNavigate()
     const dispatch = useDispatch()
-    let user = useSelector(store => store.auth.user)
+    const [user, setUser] = useState(null)
+    const [cookieUser, setCookieUSer] = useState(Cookies.get("user_data"))
+    const [token, setToken] = useState(Cookies.get("token"))
+
+    useEffect(() => {
+        if (token && cookieUser) {
+            setUser(JSON.parse(cookieUser))
+        }
+    }, [token, cookieUser])
 
     const logoutHandler = async () => {
-        try {
-            const res = await axios.get(`${Endpoints.logout}`, { withCredentials: true })
-            if (res.data.success) {
-                dispatch(setUser(null))
-                navigte("/")
-                toast.success(res.data.message)
-            }
-        } catch (error) {
-            toast.error(error?.response?.data?.message || "Someting went wrong")
-        }
+        Cookies.remove("token")
+        Cookies.remove("user_data")
+        setUser(null)
+        toast.success("Logged out success")
+        navigte("/")
     }
 
     return (
@@ -42,22 +47,25 @@ const Navbar = () => {
                 <div className="flex items-center gap-12">
                     <ul className="flex font-medium items-center gap-5">
                         {
-                            user && user.role === "recruiter" ? (
-                                <>
-                                    <Link to={'/admin/companies'}>Companies</Link>
-                                    <Link to={'/admin/jobs'}>Jobs</Link>
-                                </>
-                            ) :
-                                (
-                                    <div className="deskop-nav-items flex items-center gap-5">
-                                        <Link to={'/'}>Home</Link>
-                                        <Link to={'/jobs'}>Jobs</Link>
-                                        <Link to={'/browse'}>Browse</Link>
-                                        <Link to={'/user/applidedjobs'}>Applied</Link>
-                                    </div>
-                                )
+                            user ?
+                                user?.role === "recruiter" ? (
+                                    <>
+                                        <Link to={'/admin/companies'}>Companies</Link>
+                                        <Link to={'/admin/jobs'}>Jobs</Link>
+                                    </>
+                                ) :
+                                    (
+                                        <div className="deskop-nav-items flex items-center gap-5">
+                                            <Link to={'/'}>Home</Link>
+                                            <Link to={'/jobs'}>Jobs</Link>
+                                            <Link to={'/browse'}>Browse</Link>
+                                            <Link to={'/user/applidedjobs'}>Applied</Link>
+                                        </div>
+                                    ) : null
                         }
                     </ul>
+
+
                     {
                         !user ? <div className="flex items-center gap-2">
                             <Link to={'/login'}>   <Button variant="outline">Login</Button></Link>
@@ -81,10 +89,10 @@ const Navbar = () => {
                                         </div>
                                     </div>
                                     <div className="flex flex-col my-2 text-gray-600">
-                                    <div className="flex w-fit items-center gap-2 cursor-pointer">
-                                                            <User2 />
-                                                            <Link to={'/profile'}>   <Button variant="link">View Profile</Button></Link>
-                                                        </div>
+                                        <div className="flex w-fit items-center gap-2 cursor-pointer">
+                                            <User2 />
+                                            <Link to={'/profile'}>   <Button variant="link">View Profile</Button></Link>
+                                        </div>
                                         <div className="flex w-fit items-center gap-2 cursor-pointer">
                                             {
                                                 user && user.role === 'student' &&

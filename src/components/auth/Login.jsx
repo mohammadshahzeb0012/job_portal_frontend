@@ -16,22 +16,22 @@ import { toast } from "react-toastify";
 
 
 const Login = () => {
-
+ 
   const [input, setInput] = useState({
     email: "",
     password: "",
     role: "",
   });
-
-  const { loading, user } = useSelector(store => store.auth);
+  const [cookieUser, setCookieUSer] = useState(Cookies.get("token"))
+  const { loading } = useSelector(store => store.auth);
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
   useEffect(()=>{
-    if(user){
+    if(cookieUser){
       navigate("/")
     }
-   },[user])
+   },[cookieUser])
 
   const changeEventHandler = (e) => {
     setInput({ ...input, [e.target.name]: e.target.value });

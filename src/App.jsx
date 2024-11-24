@@ -9,8 +9,6 @@ import Jobs from './components/Jobs'
 import Browse from './components/Browse'
 import Profile from './components/Profile'
 import JobDescription from './components/JobDescription'
-import persistStore from 'redux-persist/es/persistStore'
-import { PersistGate } from 'redux-persist/integration/react'
 import Companies from './components/min/Companies'
 import CompanyCreate from './components/min/CompanyCreate'
 import CompanySetup from './components/min/CompanySetup'
@@ -21,7 +19,6 @@ import NotFound from './components/NotFound'
 import ProtectAdmin from './components/min/ProtectAdmin'
 import ProtectUser from './components/ProtectUser'
 import { ToastContainer } from 'react-toastify'
-const persistore = persistStore(store);
 import 'react-toastify/dist/ReactToastify.css';
 import AppliedJobs from './components/AppliedJobs'
 
@@ -53,7 +50,7 @@ const appRouter = createBrowserRouter([
   },
   {
     path: "/jobs",
-    element: <Jobs />
+    element: <ProtectUser><Jobs /></ProtectUser>
   },
   {
     path: '/description/:id',
@@ -82,7 +79,6 @@ const appRouter = createBrowserRouter([
   {
     path: '/admin/jobs',
     element: <ProtectAdmin>  <AdminJobs /></ProtectAdmin>
-
   },
   {
     path: '/admin/job/post',
@@ -99,14 +95,11 @@ function App() {
   return (
     <>
       <Provider store={store}>
-        <PersistGate loading={null} persistor={persistore}>
-          <ToastContainer />
-          <RouterProvider router={appRouter} />
-        </PersistGate>
+        <ToastContainer />
+        <RouterProvider router={appRouter} />
       </Provider>
     </>
   )
 }
-
 
 export default App

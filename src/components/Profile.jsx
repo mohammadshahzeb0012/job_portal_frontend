@@ -1,4 +1,4 @@
-import { Contact, Loader, Mail, Pen } from "lucide-react"
+import { Contact,  Mail, Pen } from "lucide-react"
 import Navbar from "./shared/Navbar"
 import { Button } from "./ui/button"
 import { Label } from "@radix-ui/react-label"
@@ -14,6 +14,7 @@ import Cookies from "js-cookie"
 import { setLoading, setUser } from "@/redux/authSlice"
 import { toast } from "react-toastify"
 import "./styles/index.css"
+import CustomLoader from "./CustomLoader"
 
 const Profile = () => {
     const [open, setOpen] = useState(false)
@@ -47,9 +48,7 @@ const Profile = () => {
     return (
         <div>
             <Navbar />
-            {loading ? <div className="w-full h-[60vh] flex justify-center items-center gap-2">
-                <span>Please Wait </span> <Loader className="animate-spin" />
-            </div>
+            {loading ? <CustomLoader />
                 : <div className='profile-details-wrrpaer max-w-4xl mx-auto bg-white border border-gray-200 rounded-2xl my-5 p-8'>
                     <div className='flex justify-between'>
                         <div className='profile-details-img-bio flex justify-center items-center gap-4'>
