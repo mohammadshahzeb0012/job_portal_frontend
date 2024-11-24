@@ -1,4 +1,7 @@
 @media screen and (max-width: 500px) {
+    .CategoryCarousel{
+        display: none;
+    }
     .job-description-head {
         display: flex;
         width: 100vw;

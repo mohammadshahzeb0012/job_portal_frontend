@@ -13,25 +13,22 @@ import { Loader2 } from "lucide-react";
 import Cookies from 'js-cookie';
 import { toast } from "react-toastify";
 
-
-
 const Login = () => {
- 
+  const token = Cookies.get("token")
   const [input, setInput] = useState({
     email: "",
     password: "",
     role: "",
   });
-  const [cookieUser, setCookieUSer] = useState(Cookies.get("token"))
-  const { loading } = useSelector(store => store.auth);
+  const { loading, user } = useSelector(store => store.auth);
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
-  useEffect(()=>{
-    if(cookieUser){
+  useEffect(() => {
+    if (user) {
       navigate("/")
     }
-   },[cookieUser])
+  }, [user])
 
   const changeEventHandler = (e) => {
     setInput({ ...input, [e.target.name]: e.target.value });
@@ -43,18 +40,18 @@ const Login = () => {
       dispatch(setLoading(true));
       const res = await axios.post(`${Endpoints.login}`, input, {
         headers: {
-          "Content-Type": "application/json"
+          "Content-Type": "application/json",
+          "Authorization": `Bearer: ${token}`
         },
         withCredentials: true
       })
       if (res.data.success) {
         dispatch(setUser(res.data.user))
-        Cookies.set('user_data',JSON.stringify(res.data.user))
+        Cookies.set('user_data', JSON.stringify(res.data.user))
         navigate("/")
       }
     } catch (error) {
-      toast.error(error?.response?.data?.message || "Someting went wrong")
-
+      toast.error(error?.response?.data?.message || "Something went wrong");
     } finally {
       dispatch(setLoading(false));
     }
@@ -65,7 +62,7 @@ const Login = () => {
     <div>
       <Navbar />
       <div className='flex items-center justify-center max-w-7xl mx-auto'>
-        <form onSubmit={submitHandler} className='w-[90%] sm:w-[80%] md:w-1/2  border border-gray-200 rounded-md p-4 my-10'>
+        <form onSubmit={submitHandler} className='w-[90%] sm:w-[80%] md:w-1/2 border border-gray-200 rounded-md p-4 my-10'>
           <h1 className='font-bold text-xl mb-5'>Login</h1>
           <div className='my-2'>
             <Label>Email</Label>
@@ -109,16 +106,14 @@ const Login = () => {
                   className="cursor-pointer"
                 />
                 <Label htmlFor="r2">recruiter</Label>
-
               </div>
             </RadioGroup>
           </div>
           {
             loading ? <Button disabled={loading} className="w-full my-4"><Loader2 className='mr-2 h-4 w-4 animate-spin' /> Please wait </Button>
               : <Button type="submit" className="w-full my-4">login</Button>
-
           }
-          <span className='text-sm'>Dont't have an account? <Link to="/signup" className='text-blue-600'>signup</Link></span>
+          <span className='text-sm'>Dont have an account? <Link to="/signup" className='text-blue-600'>signup</Link></span>
         </form>
       </div>
     </div>

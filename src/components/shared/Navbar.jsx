@@ -5,37 +5,32 @@ import {
     PopoverTrigger,
 } from "@/components/ui/popover"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
-import { Briefcase, Chrome, FileOutput, House, LogOut, User2 } from "lucide-react"
+import { Briefcase, Chrome, File, House, LogOut, User, User2 } from "lucide-react"
 import { Link, useNavigate } from "react-router-dom"
 import { useDispatch, useSelector } from "react-redux"
 import axios from "axios"
 import Endpoints from "@/network/endpoints"
 import { setUser } from "@/redux/authSlice"
+import { toast } from "react-toastify"
 import "./styles/index.css"
-import { toast } from "react-toastify";
-import Cookies from "js-cookie"
-import { useEffect, useState } from "react"
-
 
 const Navbar = () => {
     const navigte = useNavigate()
     const dispatch = useDispatch()
-    const [user, setUser] = useState(null)
-    const [cookieUser, setCookieUSer] = useState(Cookies.get("user_data"))
-    const [token, setToken] = useState(Cookies.get("token"))
-
-    useEffect(() => {
-        if (token && cookieUser) {
-            setUser(JSON.parse(cookieUser))
-        }
-    }, [token, cookieUser])
+    let user = useSelector(store => store.auth.user)
 
     const logoutHandler = async () => {
-        Cookies.remove("token")
-        Cookies.remove("user_data")
-        setUser(null)
-        toast.success("Logged out success")
-        navigte("/")
+        try {
+            const res = await axios.get(`${Endpoints.logout}`, { withCredentials: true })
+            if (res.data.success) {
+                dispatch(setUser(null))
+                navigte("/")
+                toast.success(res.data.message)
+            }
+        } catch (error) {
+            toast.error(error.response.data.message)
+        }
+
     }
 
     return (
@@ -47,25 +42,21 @@ const Navbar = () => {
                 <div className="flex items-center gap-12">
                     <ul className="flex font-medium items-center gap-5">
                         {
-                            user ?
-                                user?.role === "recruiter" ? (
-                                    <>
-                                        <Link to={'/admin/companies'}>Companies</Link>
-                                        <Link to={'/admin/jobs'}>Jobs</Link>
-                                    </>
-                                ) :
-                                    (
-                                        <div className="deskop-nav-items flex items-center gap-5">
-                                            <Link to={'/'}>Home</Link>
-                                            <Link to={'/jobs'}>Jobs</Link>
-                                            <Link to={'/browse'}>Browse</Link>
-                                            <Link to={'/user/applidedjobs'}>Applied</Link>
-                                        </div>
-                                    ) : null
+                            user && user.role === "recruiter" ? (
+                                <>
+                                    <Link to={'/admin/companies'}>Companies</Link>
+                                    <Link to={'/admin/jobs'}>Jobs</Link>
+                                </>
+                            ) :
+                                (
+                                    <div className="deskop-nav-items flex items-center gap-5">
+                                        <Link to={'/'}>Home</Link>
+                                        <Link to={'/jobs'}>Jobs</Link>
+                                        <Link to={'/browse'}>Browse</Link>
+                                    </div>
+                                )
                         }
                     </ul>
-
-
                     {
                         !user ? <div className="flex items-center gap-2">
                             <Link to={'/login'}>   <Button variant="outline">Login</Button></Link>
@@ -75,7 +66,7 @@ const Navbar = () => {
                                 <PopoverTrigger asChild>
                                     <Avatar className="cursor-pointer\">
                                         <AvatarImage src={user?.profile?.profilePhoto} />
-                                        <AvatarFallback>CN</AvatarFallback>
+                                        <AvatarFallback><User /></AvatarFallback>
                                     </Avatar>
                                 </PopoverTrigger>
                                 <PopoverContent className="w-30">
@@ -90,17 +81,13 @@ const Navbar = () => {
                                     </div>
                                     <div className="flex flex-col my-2 text-gray-600">
                                         <div className="flex w-fit items-center gap-2 cursor-pointer">
-                                            <User2 />
-                                            <Link to={'/profile'}>   <Button variant="link">View Profile</Button></Link>
-                                        </div>
-                                        <div className="flex w-fit items-center gap-2 cursor-pointer">
                                             {
                                                 user && user.role === 'student' &&
                                                 <div>
                                                     <div className="mobile-nav-items">
                                                         <div className="flex w-fit items-center gap-2 cursor-pointer">
-                                                            <FileOutput />
-                                                            <Link to={'/user/applidedjobs'}><Button variant="link">Applied</Button></Link>
+                                                            <House />
+                                                            <Link to={'/'}>   <Button variant="link">Home</Button></Link>
                                                         </div>
                                                         <div className="flex w-fit items-center gap-2 cursor-pointer">
                                                             <Briefcase />
@@ -110,6 +97,14 @@ const Navbar = () => {
                                                             <Chrome />
                                                             <Link to={'/browse'}>   <Button variant="link">Browse</Button></Link>
                                                         </div>
+                                                    </div>
+                                                    <div className="flex w-fit items-center gap-2 cursor-pointer">
+                                                        <User2 />
+                                                        <Link to={'/profile'}>   <Button variant="link">View Profile</Button></Link>
+                                                    </div>
+                                                    <div className="flex w-fit items-center gap-2 cursor-pointer">
+                                                        <File />
+                                                        <Link to={'/user/applidedjobs'}>   <Button variant="link">Applied Jobs</Button></Link>
                                                     </div>
                                                 </div>
                                             }
