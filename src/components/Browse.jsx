@@ -16,7 +16,7 @@ const Browse = () => {
     const dispatch = useDispatch()
     const { allJobs } = useSelector(store => store.jobs)
     const [open, setopen] = useState(false)
-    const [loading,setloading] = useState(false)
+    const [btnDisbleID,setBtnDisbleID] = useState(false)
     
     useEffect(() => {
         return () => {
@@ -26,7 +26,7 @@ const Browse = () => {
 
     const handelSveForLAter = useCallback( async (jobId, currentSaveForLaterStatus) => {
         try {
-            setloading(true)
+            setBtnDisbleID(jobId)
             const types = !currentSaveForLaterStatus;
             const res = await axios.post(`${Endpoints.save_for_later}`, {
                 jobId: jobId
@@ -40,7 +40,7 @@ const Browse = () => {
         } catch (error) {
             toast.error(error?.response?.data?.message ? error?.response?.data?.message : "Something went wrong")
         }finally{
-            setloading(false)
+            setBtnDisbleID(null)
         }
 
     },[])
@@ -76,7 +76,7 @@ const Browse = () => {
                                 allJobs &&
                                 allJobs?.map((job) => {
                                     return (
-                                        <Job key={job._id} job={job} handelSveForLAter={handelSveForLAter} loading={loading} />
+                                        <Job key={job._id} job={job} handelSveForLAter={handelSveForLAter} btnDisbleID={btnDisbleID} />
                                     )
                                 })
                             }

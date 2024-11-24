@@ -23,6 +23,7 @@ import ProtectUser from './components/ProtectUser'
 import { ToastContainer } from 'react-toastify'
 const persistore = persistStore(store);
 import 'react-toastify/dist/ReactToastify.css';
+import AppliedJobs from './components/AppliedJobs'
 
 
 const appRouter = createBrowserRouter([
@@ -35,6 +36,10 @@ const appRouter = createBrowserRouter([
     element: <ProtectUser>  <Profile /></ProtectUser>
   },
   {
+    path: "/user/applidedjobs",
+    element: <ProtectUser><AppliedJobs /></ProtectUser>
+  },
+  {
     path: "/login",
     element: <Login />
   },
@@ -44,7 +49,7 @@ const appRouter = createBrowserRouter([
   },
   {
     path: '/browse',
-    element: <Browse />
+    element: <ProtectUser><Browse /></ProtectUser>
   },
   {
     path: "/jobs",

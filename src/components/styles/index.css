@@ -1,11 +1,58 @@
-@media screen and (max-width: 500px){
-    .job-description-head{
+@media screen and (max-width: 500px) {
+    .job-description-head {
+        display: flex;
+        width: 100vw;
+        flex-direction: column;
+        align-items: flex-start !important;
+        gap: 10px;
+    }
 
-    }
-    .CategoryCarousel{
-    display: none;
-    }
-    .hero-searchbar{
+    .hero-searchbar {
         width: 90vw !important;
     }
+
+    .applied-jobs-table {
+        width: 95vw !important;
+        overflow-x: scroll;
+    }
+
+    .profile-details-wrrpaer {
+        .profile-details-img-bio {
+            display: flex;
+            flex-direction: column !important;
+
+            .ProfileImage {
+                height: 30px;
+                width: 30px;
+
+                img {
+                    border-radius: 10%;
+                }
+            }
+
+        }
+
+        .profile-skills-wrrpaer {
+            flex-wrap: wrap;
+        }
+
+    }
+}
+
+.ProfileImage {
+    height: 12vh;
+    width: 35vw;
+    border: 1px solid #F83002;
+    border-radius: 50%;
+    overflow: hidden;
+    img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+}
+
+.profile-details-img-bio {
+    display: flex;
+    align-items: flex-start !important;
 }

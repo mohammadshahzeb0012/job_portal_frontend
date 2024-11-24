@@ -5,14 +5,13 @@ import { Badge } from "./ui/badge"
 import { useNavigate } from "react-router-dom"
 import EpochToHuman from "@/utils/EpochToHuman"
 
-const Job = ({ job, handelSveForLAter, loading }) => {
+const Job = ({ job, handelSveForLAter, btnDisbleID }) => {
     const navigate = useNavigate()
     return (
         <div className='p-5 rounded-md shadow-xl bg-white border border-gray-100'>
             <div className='flex items-center justify-between'>
                 <p className='text-sm text-gray-500'>{EpochToHuman(job?.createdAt)}</p>
                 <Button
-
                     onClick={() => handelSveForLAter(job._id, job.saveForLater)}
                     variant="outline"
                     className={`rounded-full ${job.saveForLater && "bg-green-400"}`} size="icon"
@@ -41,7 +40,7 @@ const Job = ({ job, handelSveForLAter, loading }) => {
             <div className='flex justify-between items-center gap-4 mt-4'>
                 <Button onClick={() => navigate(`/description/${job?._id}`)} variant="outline">Details</Button>
                 <Button
-                    disabled={loading}
+                    disabled={btnDisbleID === job._id}
                     onClick={() => handelSveForLAter(job._id, job.saveForLater)}
                     className={`${job?.saveForLater ? "bg-green-400" : "bg-[#7209b7]"} `}>{job?.saveForLater ? "Saved" : "Save for Later"}</Button>
             </div>

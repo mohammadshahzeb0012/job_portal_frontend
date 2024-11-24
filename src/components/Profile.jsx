@@ -1,75 +1,93 @@
-import { Contact, Mail, Pen } from "lucide-react"
+import { Contact, Loader, Mail, Pen } from "lucide-react"
 import Navbar from "./shared/Navbar"
 import { Button } from "./ui/button"
 import { Label } from "@radix-ui/react-label"
-import AppliedJobTable from "./AppliedJobTable"
 import { useEffect, useState } from "react"
 import UpdateProfileDialog from "./UpdateProfileDialog"
-import { useSelector } from "react-redux"
+import { useDispatch, useSelector } from "react-redux"
 import { Badge } from "./ui/badge"
 import ProfileImage from "./ProfileImage"
 import Footer from "./shared/Footer"
 import axios from "axios"
 import Endpoints from "@/network/endpoints"
+import Cookies from "js-cookie"
+import { setLoading, setUser } from "@/redux/authSlice"
+import { toast } from "react-toastify"
+import "./styles/index.css"
+
 const Profile = () => {
     const [open, setOpen] = useState(false)
-    const { user } = useSelector(store => store.auth);
+    const { user, loading } = useSelector(store => store.auth);
+    const dispatch = useDispatch()
+    const token = Cookies.get("token")
 
-    useEffect(()=>{
-        const f = async()=>{
+    useEffect(() => {
+        const fetchProfile = async () => {
+            dispatch(setLoading(true))
             try {
-                const res = await axios.get(`${Endpoints.get_saved_jobs}`,{withCredentials: true})
-                console.log(res)
+                const res = await axios.get(`${Endpoints.user_profile_details}`,
+                    {
+                        withCredentials: true,
+                        headers: {
+                            Authorization: `Bearer: ${token}`
+                        }
+                    })
+                if (res.data.success) {
+                    dispatch(setUser(res.data.user))
+                }
             } catch (error) {
-                console.log(error)
+                toast.error("Something went wrong")
+            } finally {
+                dispatch(setLoading(false))
             }
         }
-        f()
-    })
+        fetchProfile()
+    }, [])
 
     return (
         <div>
             <Navbar />
-            <div className='max-w-4xl mx-auto bg-white border border-gray-200 rounded-2xl my-5 p-8'>
-                <div className='flex justify-between'>
-                    <div className='flex items-center gap-4'>
-                        <ProfileImage />
-                        <div>
-                            <h1 className='font-medium text-xl'>{user?.fullname}</h1>
-                            <p>{user?.profile?.bio}</p>
+            {loading ? <div className="w-full h-[60vh] flex justify-center items-center gap-2">
+                <span>Please Wait </span> <Loader className="animate-spin" />
+            </div>
+                : <div className='profile-details-wrrpaer max-w-4xl mx-auto bg-white border border-gray-200 rounded-2xl my-5 p-8'>
+                    <div className='flex justify-between'>
+                        <div className='profile-details-img-bio flex justify-center items-center gap-4'>
+                            <ProfileImage />
+                            <div>
+                                <h1 className='font-medium text-xl'>{user?.fullname}</h1>
+                                <p>{user?.profile?.bio}</p>
+                            </div>
+                        </div>
+                        <Button className="text-right" variant="outline" onClick={() => setOpen(!open)}><Pen /></Button>
+                    </div>
+                    <div className='my-5'>
+                        <div className='flex items-center gap-3 my-2'>
+                            <Mail />
+                            <span>{user?.email}</span>
+                        </div>
+                        <div className='flex items-center gap-3 my-2'>
+                            <Contact />
+                            <span>{user?.phoneNumber}</span>
                         </div>
                     </div>
-                    <Button className="text-right" variant="outline" onClick={() => setOpen(!open)}><Pen /></Button>
-                </div>
-                <div className='my-5'>
-                    <div className='flex items-center gap-3 my-2'>
-                        <Mail />
-                        <span>{user?.email}</span>
+                    <div className='my-5'>
+                        <h1>Skills</h1>
+                        <div className='profile-skills-wrrpaer flex items-center gap-1'>
+                            {
+                                user?.profile?.skills.length !== 0 ? user?.profile?.skills.map((item, index) => <Badge key={index}>{item}</Badge>) : <span>NA</span>
+                            }
+                        </div>
                     </div>
-                    <div className='flex items-center gap-3 my-2'>
-                        <Contact />
-                        <span>{user?.phoneNumber}</span>
-                    </div>
-                </div>
-                <div className='my-5'>
-                    <h1>Skills</h1>
-                    <div className='flex items-center gap-1'>
+                    <div className='grid w-full max-w-sm items-center gap-1.5'>
+                        <Label className="text-md font-bold">Resume</Label>
                         {
-                            user?.profile?.skills.length !== 0 ? user?.profile?.skills.map((item, index) => <Badge key={index}>{item}</Badge>) : <span>NA</span>
+                            user?.profile?.resume ? <a target='blank' href={user?.profile?.resume} className='text-blue-500 w-full hover:underline cursor-pointer'>{user?.profile?.resumeOriginalName}</a> : <span>NA</span>
                         }
                     </div>
                 </div>
-                <div className='grid w-full max-w-sm items-center gap-1.5'>
-                    <Label className="text-md font-bold">Resume</Label>
-                    {
-                        user?.profile?.resume ? <a target='blank' href={user?.profile?.resume} className='text-blue-500 w-full hover:underline cursor-pointer'>{user?.profile?.resumeOriginalName}</a> : <span>NA</span>
-                    }
-                </div>
-            </div>
-            <div className='max-w-4xl mx-auto bg-white rounded-2xl'>
-                <h1 className='font-bold text-lg my-5'>Applied Jobs</h1>
-                <AppliedJobTable />
-            </div>
+            }
+
             <UpdateProfileDialog open={open} setOpen={setOpen} />
             <Footer />
         </div>

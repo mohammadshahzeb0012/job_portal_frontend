@@ -8,6 +8,7 @@ const Endpoints = {
     logout: `${bASE_URL}/api/v1/user/logout`,
     user_api_end_point: `${bASE_URL}/api/v1/user/updateProfile`,
     user_profile_pic: `${bASE_URL}/api/v1/user/updateProfilepic`,
+    user_profile_details: `${bASE_URL}/api/v1/user/profilesDetails`,
     get_all_jobs: `${bASE_URL}/api/v1/job/get`,
     get_highlights_jobs: `${bASE_URL}/api/v1/job/hightJobs`,
     get_single_job: `${bASE_URL}/api/v1/job/get`,

@@ -6,13 +6,14 @@ import axios from "axios"
 import Endpoints from "@/network/endpoints"
 import { setAllAppliedJobs } from "@/redux/jobSlice"
 import { toast } from "react-toastify";
-
 import EpochToHuman from "@/utils/EpochToHuman"
+import { useNavigate } from "react-router-dom"
+import "./styles/index.css"
 
 const AppliedJobTable = () => {
     const dispatch = useDispatch()
-    const {allAppliedJobs} = useSelector(store=>store.jobs)
-
+    const { allAppliedJobs } = useSelector(store => store.jobs)
+    const navigate = useNavigate()
     useEffect(() => {
         const fecthAppliedJobs = async () => {
             try {
@@ -27,9 +28,10 @@ const AppliedJobTable = () => {
         fecthAppliedJobs()
     }, [])
 
+
     return (
         <div>
-            <Table >
+            <Table className="applied-jobs-table">
                 <TableCaption>A list of your applied jobs</TableCaption>
                 <TableHeader>
                     <TableRow>
@@ -39,10 +41,10 @@ const AppliedJobTable = () => {
                         <TableHead className="text-right">Status</TableHead>
                     </TableRow>
                 </TableHeader>
-                <TableBody>
+                <TableBody className="applied-job-table-boy">
                     {
                         allAppliedJobs.length <= 0 ? <span>You havent applied any job yet.</span> : allAppliedJobs.map((appliedJob) => (
-                            <TableRow key={appliedJob._id}>
+                            <TableRow onClick={()=>navigate(`/description/${appliedJob._id}`)} className="cursor-pointer" key={appliedJob._id}>
                                 <TableCell>{EpochToHuman(appliedJob?.createdAt)}</TableCell>
                                 <TableCell>{appliedJob?.job?.title}</TableCell>
                                 <TableCell>{appliedJob?.job?.company?.name}</TableCell>

@@ -7,10 +7,11 @@ import axios from "axios"
 import { useCallback, useEffect, useState } from "react"
 import { useDispatch, useSelector } from "react-redux"
 import Navbar from "./shared/Navbar"
-import { toast } from "sonner"
+import { toast } from "react-toastify";
 import LatestJobs from "./LatestJobs"
 import Footer from "./shared/Footer"
 import "./styles/index.css"
+import Cookies from "js-cookie"
 
 const JobDescription = () => {
     const params = useParams()
@@ -19,10 +20,18 @@ const JobDescription = () => {
     const { user } = useSelector(store => store.auth);
     const { singleJob } = useSelector(store => store.jobs)
     const [isApplied, setIsApplied] = useState(singleJob?.applications?.length > 0 ? singleJob?.applications?.some(application => application.applicant == user?._id) : false)
+    const token = Cookies.get("token")
+
 
     const applyJobHandler = useCallback(async () => {
         try {
-            const res = await axios.get(`${Endpoints.apply_job}/${jobId}`, { withCredentials: true })
+            const res = await axios.get(`${Endpoints.apply_job}/${jobId}`,
+                {
+                    withCredentials: true,
+                    headers: {
+                        Authorization: `Bearer: ${token}`
+                    }
+                })
             if (res.data.success) {
                 const updatedSingleJob = { ...singleJob, applications: [...singleJob.applications, { applicant: user?._id }] }
                 dispatch(setSingleJob(updatedSingleJob));
@@ -32,7 +41,7 @@ const JobDescription = () => {
         } catch (error) {
             toast.error(error?.response?.data?.message || "Soething went wrong");
         }
-    },[jobId])
+    }, [jobId])
 
     useEffect(() => {
         const fetchSingleJob = async () => {
@@ -54,7 +63,7 @@ const JobDescription = () => {
         <>
             <Navbar />
             <div className='max-w-7xl mx-auto my-10'>
-                <div className=' job-description-head flex items-center justify-between'>
+                <div className=' job-description-head flex items-center justify-between p-3'>
                     <div>
                         <h1 className='font-bold text-xl'>{singleJob?.title}</h1>
                         <div className='flex items-center gap-2 mt-4'>
@@ -70,8 +79,8 @@ const JobDescription = () => {
                         {isApplied ? 'Already Applied' : 'Apply Now'}
                     </Button>
                 </div>
-                <h1 className='border-b-2 border-b-gray-300 font-medium py-4'>Job Description</h1>
-                <div className='my-4'>
+                <h1 className='border-b-2 border-b-gray-300 font-medium py-4 px-3'>Job Description</h1>
+                <div className='my-4 p-3'>
                     <h1 className='font-bold my-1'>Role: <span className='pl-4 font-normal text-gray-800'>{singleJob?.title}</span></h1>
                     <h1 className='font-bold my-1'>Location: <span className='pl-4 font-normal text-gray-800'>{singleJob?.location}</span></h1>
                     <h1 className='font-bold my-1'>Requirements: <span className='pl-4 font-normal text-gray-800'>{singleJob?.requirements.join(" ")}</span></h1>

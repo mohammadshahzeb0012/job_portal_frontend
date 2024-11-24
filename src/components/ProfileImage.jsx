@@ -9,10 +9,9 @@ import axios from "axios"
 import Endpoints from "@/network/endpoints"
 import { toast } from "react-toastify";
 import Cookies from "js-cookie"
-
-
 import { useDispatch, useSelector } from "react-redux"
 import { setUser } from "@/redux/authSlice"
+import "./styles/index.css"
 
 const ProfileImage = () => {
     const { user } = useSelector(store => store.auth);
@@ -61,14 +60,11 @@ const ProfileImage = () => {
     }
 
     return (
-        <div onClick={() => setOpen(true)}>
-            <Avatar className="h-24 w-24">
+        <div className="ProfileImage cursor-pointer" onClick={() => setOpen(true)}>
                 {
-                    user?.profile?.profilePhoto ? <AvatarImage src={user?.profile?.profilePhoto} alt="profile" /> :
+                    user?.profile?.profilePhoto ? <img  src={user?.profile?.profilePhoto} alt="profile" /> :
                         <span>NA</span>
-
                 }
-            </Avatar>
             <Dialog open={open}>
                 <DialogContent onInteractOutside={() => setOpen(false)}>
                     <DialogHeader>

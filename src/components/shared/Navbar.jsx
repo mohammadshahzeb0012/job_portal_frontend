@@ -5,7 +5,7 @@ import {
     PopoverTrigger,
 } from "@/components/ui/popover"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
-import { Briefcase, Chrome, House, LogOut, User2 } from "lucide-react"
+import { Briefcase, Chrome, FileOutput, House, LogOut, User2 } from "lucide-react"
 import { Link, useNavigate } from "react-router-dom"
 import { useDispatch, useSelector } from "react-redux"
 import axios from "axios"
@@ -32,7 +32,7 @@ const Navbar = () => {
             toast.error(error?.response?.data?.message || "Someting went wrong")
         }
     }
-    
+
     return (
         <div className='bg-white'>
             <div className='flex items-center justify-between mx-auto max-w-7xl h-16 px-5'>
@@ -53,6 +53,7 @@ const Navbar = () => {
                                         <Link to={'/'}>Home</Link>
                                         <Link to={'/jobs'}>Jobs</Link>
                                         <Link to={'/browse'}>Browse</Link>
+                                        <Link to={'/user/applidedjobs'}>Applied</Link>
                                     </div>
                                 )
                         }
@@ -80,14 +81,18 @@ const Navbar = () => {
                                         </div>
                                     </div>
                                     <div className="flex flex-col my-2 text-gray-600">
+                                    <div className="flex w-fit items-center gap-2 cursor-pointer">
+                                                            <User2 />
+                                                            <Link to={'/profile'}>   <Button variant="link">View Profile</Button></Link>
+                                                        </div>
                                         <div className="flex w-fit items-center gap-2 cursor-pointer">
                                             {
                                                 user && user.role === 'student' &&
                                                 <div>
                                                     <div className="mobile-nav-items">
                                                         <div className="flex w-fit items-center gap-2 cursor-pointer">
-                                                            <House />
-                                                            <Link to={'/'}>   <Button variant="link">Home</Button></Link>
+                                                            <FileOutput />
+                                                            <Link to={'/user/applidedjobs'}><Button variant="link">Applied</Button></Link>
                                                         </div>
                                                         <div className="flex w-fit items-center gap-2 cursor-pointer">
                                                             <Briefcase />
@@ -97,10 +102,6 @@ const Navbar = () => {
                                                             <Chrome />
                                                             <Link to={'/browse'}>   <Button variant="link">Browse</Button></Link>
                                                         </div>
-                                                    </div>
-                                                    <div className="flex w-fit items-center gap-2 cursor-pointer">
-                                                        <User2 />
-                                                        <Link to={'/profile'}>   <Button variant="link">View Profile</Button></Link>
                                                     </div>
                                                 </div>
                                             }
