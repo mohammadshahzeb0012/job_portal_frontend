@@ -10,12 +10,16 @@ import Endpoints from "@/network/endpoints"
 import { toast } from "react-toastify";
 import { setSingleCompany } from "@/redux/companySlice"
 import { useDispatch } from "react-redux"
+import Cookies from "js-cookie"
+
 
 const CompanyCreate = () => {
     const navigate = useNavigate()
     const dispatch = useDispatch()
     const [loading, setLoading] = useState(false);
     const [companyName, setCompanyName] = useState(null);
+    const token = Cookies.get("token")
+
 
     const registerNewCompany = async (e) => {
         e.preventDefault()
@@ -24,7 +28,8 @@ const CompanyCreate = () => {
                 setLoading(true)
                 const res = await axios.post(`${Endpoints.register_new_company}`, { companyName }, {
                     headers: {
-                        'Content-Type': 'application/json'
+                        'Content-Type': 'application/json',
+                        "Authorization": `Bearer: ${token}`
                     },
                     withCredentials: true
                 })
@@ -63,7 +68,7 @@ const CompanyCreate = () => {
                     <div className='flex items-center gap-2 my-10'>
                         <Button disabled={loading} variant="outline" onClick={() => navigate("/admin/companies")}>Cancel</Button>
                         {
-                            loading ? <Button disabled={loading} className="w-full my-4"> <Loader2 className='mr-2 h-4 w-4 animate-spin' /> Please wait </Button> : <Button type="submit" className="w-full my-4">Update</Button>
+                            loading ? <Button disabled={loading} className="w-full my-4"> <Loader2 className='mr-2 h-4 w-4 animate-spin' /> Please wait </Button> : <Button type="submit" className="w-full my-4">Refister</Button>
                         }
                     </div>
                 </div>

@@ -6,6 +6,7 @@ import { Edit2, Eye, MoreHorizontal } from "lucide-react"
 import { useNavigate } from "react-router-dom"
 import { useSelector } from "react-redux"
 import { useEffect, useState } from "react"
+import EpochToHuman from "@/utils/EpochToHuman"
 
 const CompaniesTable = () => {
     const navigate = useNavigate()
@@ -46,7 +47,7 @@ const CompaniesTable = () => {
                                     }
                                 </TableCell>
                                 <TableCell>{company.name}</TableCell>
-                                <TableCell>{company.updatedAt}</TableCell>
+                                <TableCell>{EpochToHuman(company.updatedAt)}</TableCell>
                                 <TableCell className="text-right cursor-pointer">
                                     <Popover>
                                         <PopoverTrigger><MoreHorizontal /></PopoverTrigger>

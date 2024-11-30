@@ -27,7 +27,7 @@ const useGetAllJobs = () => {
         }
       } catch (error) {
         console.log(error)
-        toast.error("something went wrong")
+        toast.error(error?.response?.data?.message || "something went wrong")
       }
     }
     fetchAllJobs()

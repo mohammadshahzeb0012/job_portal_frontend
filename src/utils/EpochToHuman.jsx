@@ -10,7 +10,7 @@ const EpochToHuman = (epochTime) => {
     const weeks = Math.floor(days / 7);
     const months = Math.floor(days / 30);
     const years = Math.floor(days / 365);
-
+    
     if (minutes < 60) {
         return minutes === 1 ? '1 minute ago' : `${minutes} minutes ago`;
     } else if (hours < 24) {

@@ -4,12 +4,14 @@ import { Button } from "../ui/button"
 import { Input } from "../ui/input"
 import { Label } from "../ui/label"
 import { ArrowLeft, Loader2 } from "lucide-react"
-import { useCallback, useEffect, useState } from "react"
+import {  useEffect, useState } from "react"
 import axios from "axios"
 import Endpoints from "@/network/endpoints"
 import { toast } from "react-toastify";
 import useGetCompanyById from "@/hooks/useGetCompanyById"
 import { useSelector } from "react-redux"
+import Cookies from "js-cookie"
+
 
 const CompanySetup = () => {
     const { id } = useParams()
@@ -23,6 +25,8 @@ const CompanySetup = () => {
         file: null
     });
     const [loading, setLoading] = useState(false);
+    const token = Cookies.get("token")
+
 
     useEffect(() => {
         setInput({
@@ -45,7 +49,7 @@ const CompanySetup = () => {
         setInput({ ...input, file });
     }
 
-    const submitHandler = useCallback(async (e) => {
+    const submitHandler = async (e) => {
         e.preventDefault()
         const formData = new FormData();
         if (input.name) formData.append("name", input.name)
@@ -53,26 +57,26 @@ const CompanySetup = () => {
         if (input.website) formData.append("website", input.website);
         if (input.location) formData.append("location", input.location);
         if (input.file) formData.append("file", input.file)
-
+       
         try {
-
             setLoading(true)
             const res = await axios.post(`${Endpoints.company_ednpoint}/update/${id}`, formData, {
+                withCredentials: true,
                 headers: {
-                    "Content-Type": 'multipart/form-data'
+                    "Content-Type": 'multipart/form-data',
+                    "Authorization": `Bearer: ${token}`
                 },
-                withCredentials: true
             })
             setLoading(false)
-            if (res.data.success) {
+            if (res?.data?.success) {
                 toast.success(res.data.message);
-                // navigate("/admin/companies")
+                navigate("/admin/companies")
             }
         } catch (error) {
             setLoading(false)
             toast.error(error?.response?.data?.message ? error.response.data.message : "Error occured")
         }
-    }, [])
+    }
 
 
     return (

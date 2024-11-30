@@ -10,6 +10,7 @@ const AdminJobsTble = () => {
   const navigate = useNavigate()
   const { allAdminJobs, searchJobByText } = useSelector(store => store.jobs)
   const [filterjobs, setFilterjobs] = useState(allAdminJobs);
+ 
 
   useEffect(() => {
     if (allAdminJobs?.length > 0) {
@@ -19,6 +20,11 @@ const AdminJobsTble = () => {
       setFilterjobs(filterd)
     }
   }, [searchJobByText])
+
+  console.log(filterjobs)
+
+
+
 
 
   return (

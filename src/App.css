@@ -11,7 +11,7 @@
 
 .side-bar {
     background-color: white;
-    width: 90vw !important;
+    width: 100vw !important;
     height: 100vh !important;
     left: -90vw;
     position: absolute;
@@ -24,6 +24,11 @@
     display: none;
 }
 
+.fiter-card-wrraper {
+    scrollbar-width: thin; 
+    scrollbar-color: #F83002 #f1f1f1; 
+  }
+
 @media screen and (max-width: 500px) {
     .filter-card-desktop {
         display: none;
@@ -34,6 +39,14 @@
     }
 
     .side-bar {
+
+       position: fixed;
+       left: 0;
+       top: 0;
+       bottom: 0;
+       height: 100vh;
+       width: 100vw;
+       z-index: 1000;
         .lucid-close-icon {
             position: absolute;
             top: 10px;

@@ -1,6 +1,9 @@
 .mobile-nav-items {
     display: none;
 }
+.footer-reservd-text{
+    width: 70%;
+}
 
 @media screen and (max-width: 500px) {
     .deskop-nav-items {
@@ -10,8 +13,9 @@
     .mobile-nav-items {
         display: block;
     }
+
     .footer-reservd-text{
-        width: 100% !important;
+        width: 85vw;
         text-align: left;
     }
 }

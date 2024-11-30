@@ -24,6 +24,9 @@ import { ToastContainer } from 'react-toastify'
 const persistore = persistStore(store);
 import 'react-toastify/dist/ReactToastify.css';
 import AppliedJobs from './components/AppliedJobs'
+import SavedJobs from './components/SavedJobs'
+import ForgotPassword from './components/auth/ForgotPassword'
+import ChangePassword from './components/auth/ChangePassword'
 
 
 const appRouter = createBrowserRouter([
@@ -38,6 +41,18 @@ const appRouter = createBrowserRouter([
   {
     path: "/user/applidedjobs",
     element: <ProtectUser><AppliedJobs /></ProtectUser>
+  },
+  {
+    path: "/user/savedjobs",
+    element: <ProtectUser><SavedJobs /></ProtectUser>
+  },
+  {
+    path: "/user/forgotpassword",
+    element: <ForgotPassword />
+  },
+  {
+    path: "/user/changepassword/:sendData",
+    element: <ChangePassword />
   },
   {
     path: "/login",

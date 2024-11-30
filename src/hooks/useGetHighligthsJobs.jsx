@@ -4,6 +4,7 @@ import axios from "axios"
 import { useEffect } from "react"
 import { useDispatch } from "react-redux"
 import Cookies from "js-cookie"
+import { toast } from "react-toastify"
 
 const useGetHighligthsJobs = () => {
   const dispatch = useDispatch()
@@ -24,6 +25,7 @@ const useGetHighligthsJobs = () => {
         }
       } catch (error) {
         console.log(error)
+        toast.error("failed to fetch please try again")
       }
     }
     fetchAllJobs()

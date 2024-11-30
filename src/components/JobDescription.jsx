@@ -22,7 +22,6 @@ const JobDescription = () => {
     const [isApplied, setIsApplied] = useState(singleJob?.applications?.length > 0 ? singleJob?.applications?.some(application => application.applicant == user?._id) : false)
     const token = Cookies.get("token")
 
-
     const applyJobHandler = useCallback(async () => {
         try {
             const res = await axios.get(`${Endpoints.apply_job}/${jobId}`,
@@ -36,7 +35,7 @@ const JobDescription = () => {
                 const updatedSingleJob = { ...singleJob, applications: [...singleJob.applications, { applicant: user?._id }] }
                 dispatch(setSingleJob(updatedSingleJob));
                 setIsApplied(true)
-                toast.success('Success');
+                toast.success('Application submited!');
             }
         } catch (error) {
             toast.error(error?.response?.data?.message || "Soething went wrong");
@@ -58,7 +57,6 @@ const JobDescription = () => {
         fetchSingleJob();
     }, [jobId]);
 
-
     return (
         <>
             <Navbar />
@@ -69,7 +67,7 @@ const JobDescription = () => {
                         <div className='flex items-center gap-2 mt-4'>
                             <Badge className={'text-blue-700 font-bold'} variant="ghost"> {singleJob?.position}</Badge>
                             <Badge className={'text-[#F83002] font-bold'} variant="ghost">{singleJob?.jobType}</Badge>
-                            <Badge className={'text-[#7209b7] font-bold'} variant="ghost">{singleJob?.salary} LPA</Badge>
+                            <Badge className={'text-[#7209b7] font-bold'} variant="ghost"> {singleJob?.salary ? `₹ ${singleJob.salary}` : "NA" }  </Badge>
                         </div>
                     </div>
                     <Button
@@ -82,11 +80,12 @@ const JobDescription = () => {
                 <h1 className='border-b-2 border-b-gray-300 font-medium py-4 px-3'>Job Description</h1>
                 <div className='my-4 p-3'>
                     <h1 className='font-bold my-1'>Role: <span className='pl-4 font-normal text-gray-800'>{singleJob?.title}</span></h1>
+                    <h1 className='font-bold my-1'>Company: <span className='pl-4 font-normal text-gray-800'>{singleJob?.company?.name}</span></h1>
                     <h1 className='font-bold my-1'>Location: <span className='pl-4 font-normal text-gray-800'>{singleJob?.location}</span></h1>
                     <h1 className='font-bold my-1'>Requirements: <span className='pl-4 font-normal text-gray-800'>{singleJob?.requirements.join(" ")}</span></h1>
                     <h1 className='font-bold my-1'>Description: <span className='pl-4 font-normal text-gray-800'>{singleJob?.description}</span></h1>
                     <h1 className='font-bold my-1'>Experience: <span className='pl-4 font-normal text-gray-800'>{singleJob?.experienceLevel} yrs</span></h1>
-                    <h1 className='font-bold my-1'>Salary: <span className='pl-4 font-normal text-gray-800'>{singleJob?.salary}LPA</span></h1>
+                    <h1 className='font-bold my-1'>Salary: <span className='pl-4 font-normal text-gray-800'> {singleJob?.salary ? `₹ ${singleJob.salary}` : "NA" }  </span></h1>
                     <h1 className='font-bold my-1'>Total Applicants: <span className='pl-4 font-normal text-gray-800'>{singleJob?.applications?.length}</span></h1>
                     <h1 className='font-bold my-1'>Posted Date: <span className='pl-4 font-normal text-gray-800'>{singleJob?.createdAt?.split("T")[0]}</span></h1>
                 </div>

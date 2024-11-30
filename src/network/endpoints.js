@@ -6,6 +6,8 @@ const Endpoints = {
     register: `${bASE_URL}/api/v1/user/register`,
     login: `${bASE_URL}/api/v1/user/login`,
     logout: `${bASE_URL}/api/v1/user/logout`,
+    send_forgot_link: `${bASE_URL}/api/v1/user/sendForgotLink`,
+    change_password: `${bASE_URL}/api/v1/user/changePassword`,
     user_api_end_point: `${bASE_URL}/api/v1/user/updateProfile`,
     user_profile_pic: `${bASE_URL}/api/v1/user/updateProfilepic`,
     user_profile_details: `${bASE_URL}/api/v1/user/profilesDetails`,

@@ -10,27 +10,37 @@ import { Filter, X } from "lucide-react";
 import axios from "axios";
 import Endpoints from "@/network/endpoints";
 import { toast } from "react-toastify";
+import Cookies from "js-cookie"
+import { allJobsSelector } from "@/redux/filTersSelectors";
+import { clearAllFilters } from "@/redux/filterSlice";
 
 const Browse = () => {
     useGetAllJobs()
     const dispatch = useDispatch()
     const { allJobs } = useSelector(store => store.jobs)
     const [open, setopen] = useState(false)
-    const [btnDisbleID,setBtnDisbleID] = useState(false)
-    
+    const [btnDisbleID, setBtnDisbleID] = useState(false)
+    const token = Cookies.get("token")
+
     useEffect(() => {
         return () => {
             dispatch(setSearchedQuery(""))
+            dispatch(clearAllFilters())
         }
     }, [])
 
-    const handelSveForLAter = useCallback( async (jobId, currentSaveForLaterStatus) => {
+    const handelSveForLAter = useCallback(async (jobId, currentSaveForLaterStatus) => {
         try {
             setBtnDisbleID(jobId)
             const types = !currentSaveForLaterStatus;
             const res = await axios.post(`${Endpoints.save_for_later}`, {
                 jobId: jobId
-            }, { withCredentials: true })
+            }, {
+                withCredentials: true,
+                headers: {
+                    Authorization: `Bearer: ${token}`
+                }
+            })
             dispatch(setSaveForLater({ jobId, types }))
             if (res.status === 201) {
                 toast.success("Job saved success!")
@@ -39,22 +49,25 @@ const Browse = () => {
             }
         } catch (error) {
             toast.error(error?.response?.data?.message ? error?.response?.data?.message : "Something went wrong")
-        }finally{
+        } finally {
             setBtnDisbleID(null)
         }
 
-    },[])
+    }, [])
+
+    const allJobsarr = useSelector(allJobsSelector)
+
 
     return (
         <div>
             <Navbar />
-            <div className='max-w-7xl mx-auto mt-5'>
+            <div className='w-auto'>
                 <div className='flex gap-5 mobie-view-jobs'>
                     <div className='w-20% FilterCard-wrraper'>
                         <div className="filter-card-desktop">
                             <FilterCard />
                         </div>
-                        <div className="filter-card-mobile">
+                        <div className="filter-card-mobile mt-2">
                             <div className="flex justify-between p-2">
                                 <Filter className="cursor-pointer" onClick={() => setopen(!open)} />
                                 <h2 className="font-bold">Filters</h2>
@@ -70,11 +83,11 @@ const Browse = () => {
                             </div>
                         </div>
                     </div>
-                    <div className='flex-1 h-[88vh] overflow-y-auto pb-5'>
+                    <div className='flex-1 h-[100vh] overflow-y-scroll'>
                         <div className='grid lg:grid-cols-3 md:grid-cols-2 sm:grid-cols-1 gap-4'>
                             {
                                 allJobs &&
-                                allJobs?.map((job) => {
+                                allJobsarr?.map((job) => {
                                     return (
                                         <Job key={job._id} job={job} handelSveForLAter={handelSveForLAter} btnDisbleID={btnDisbleID} />
                                     )
@@ -103,9 +116,6 @@ const Browse = () => {
                     }
                 </div>
             </div> */}
-
-
-
             <Footer />
         </div>
     )

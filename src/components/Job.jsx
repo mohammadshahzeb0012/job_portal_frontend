@@ -8,7 +8,7 @@ import EpochToHuman from "@/utils/EpochToHuman"
 const Job = ({ job, handelSveForLAter, btnDisbleID }) => {
     const navigate = useNavigate()
     return (
-        <div className='p-5 rounded-md shadow-xl bg-white border border-gray-100'>
+        <div className='p-5 rounded-md shadow-xl bg-white border border-gray-100 flex flex-col justify-between'>
             <div className='flex items-center justify-between'>
                 <p className='text-sm text-gray-500'>{EpochToHuman(job?.createdAt)}</p>
                 <Button
@@ -25,7 +25,7 @@ const Job = ({ job, handelSveForLAter, btnDisbleID }) => {
                 </Button>
                 <div>
                     <h1 className='font-medium text-lg'>{job?.company?.name}</h1>
-                    <p className='text-sm text-gray-500'>{job?.company?.location}</p>
+                    <p className='text-sm text-gray-500'>{job?.location}</p>
                 </div>
             </div>
             <div>
@@ -35,7 +35,7 @@ const Job = ({ job, handelSveForLAter, btnDisbleID }) => {
             <div className='flex items-center gap-2 mt-4'>
                 <Badge className={'text-blue-700 font-bold'} variant="ghost"> {job?.position} Positions</Badge>
                 <Badge className={'text-[#F83002] font-bold'} variant="ghost">{job?.jobType}</Badge>
-                <Badge className={'text-[#7209b7] font-bold'} variant="ghost">{job?.salary}LPA</Badge>
+                <Badge className={'text-[#7209b7] font-bold'} variant="ghost">{job?.salary ? `₹ ${job.salary}` : "NA" }</Badge>
             </div>
             <div className='flex justify-between items-center gap-4 mt-4'>
                 <Button onClick={() => navigate(`/description/${job?._id}`)} variant="outline">Details</Button>
