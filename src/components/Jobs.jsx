@@ -84,8 +84,8 @@ const Jobs = () => {
           <div className='flex-1 h-[100vh] overflow-y-scroll'>
             <div className='grid lg:grid-cols-3 md:grid-cols-2 sm:grid-cols-1 gap-4'>
               {
-                allJobsarr.length <= 0 ? <span>No Job Available</span> :
-                  allJobsarr.map((job) => {
+                allJobsarr?.length <= 0 ? <span>No Job Available</span> :
+                  allJobsarr?.map((job) => {
                     return <Job key={job._id} job={job} handelSveForLAter={handelSveForLAter} loading={loading} />
                   })
               }
