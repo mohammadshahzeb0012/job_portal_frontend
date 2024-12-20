@@ -59,7 +59,7 @@ const AppliedJobTable = () => {
                         </TableHeader>
                         <TableBody className="applied-job-table-boy">
                             {
-                                allAppliedJobs.length <= 0 ? <span>You havent applied any job yet.</span> : allAppliedJobs.map((appliedJob) => (
+                                allAppliedJobs?.length <= 0 ? <span>You havent applied any job yet.</span> : allAppliedJobs.map((appliedJob) => (
                                     <TableRow onClick={() => navigate(`/description/${appliedJob._id}`)} className="cursor-pointer" key={appliedJob._id}>
                                         <TableCell>{EpochToHuman(appliedJob?.createdAt)}</TableCell>
                                         <TableCell>{appliedJob?.job?.title}</TableCell>

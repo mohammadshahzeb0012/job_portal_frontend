@@ -69,7 +69,7 @@ const SavedJobsTable = () => {
                 </TableHeader>
                 <TableBody className="applied-job-table-boy">
                     {
-                        savedJob.length <= 0 ? <span>You havent any saved job yet.</span> : savedJob.map((appliedJob) => (
+                        savedJob?.length <= 0 ? <span>You havent any saved job yet.</span> : savedJob.map((appliedJob) => (
                             <TableRow key={appliedJob._id}>
                                 <TableCell>{EpochToHuman(appliedJob?.createdAt)}</TableCell>
                                 <TableCell>{appliedJob?.jobId?.title}</TableCell>

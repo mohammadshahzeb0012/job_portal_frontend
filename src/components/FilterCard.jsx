@@ -13,7 +13,7 @@ const FilterCard = () => {
     const dispatch = useDispatch()
 
     useEffect(() => {
-        if (allJobs && allJobs.length > 0) {
+        if (allJobs && allJobs?.length > 0) {
             const manipulatedData = [
                 { fitlerType: "Location", array: new Set() },
                 { fitlerType: "Industry", array: new Set() },

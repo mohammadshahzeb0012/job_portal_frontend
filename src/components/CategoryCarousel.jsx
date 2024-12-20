@@ -21,7 +21,7 @@ const CategoryCarousel = () => {
 
     useEffect(() => {
         const newSet = new Set()
-        if (allJobs && allJobs.length > 0) {
+        if (allJobs && allJobs?.length > 0) {
             allJobs.map((job) => {
                 newSet.add(job.title)
             })
