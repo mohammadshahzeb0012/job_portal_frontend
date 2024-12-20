@@ -8,6 +8,7 @@ import EpochToHuman from "@/utils/EpochToHuman"
 const Job = ({ job, handelSveForLAter, btnDisbleID }) => {
     const navigate = useNavigate()
     return (
+          
         <div className='p-5 rounded-md shadow-xl bg-white border border-gray-100 flex flex-col justify-between'>
             <div className='flex items-center justify-between'>
                 <p className='text-sm text-gray-500'>{EpochToHuman(job?.createdAt)}</p>
