@@ -38,7 +38,7 @@ const Navbar = () => {
             <div className='flex items-center justify-between mx-auto max-w-7xl h-16 px-5'>
                 <div>
                     <Link to={'/'}><h1 className='text-2xl font-bold'>Dreamo<span className='text-[#F83002]'>Jobs</span></h1></Link>
-                </div>
+                </div>     
                 <div className="flex items-center gap-12">
                     <ul className="flex font-medium items-center gap-5">
                         {
@@ -125,7 +125,6 @@ const Navbar = () => {
                 </div>
             </div>
         </div>
-
     )
 }
 
