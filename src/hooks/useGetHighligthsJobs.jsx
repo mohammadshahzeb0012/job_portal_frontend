@@ -1,7 +1,7 @@
 import Endpoints from "@/network/endpoints"
 import { setAllJobs } from "@/redux/jobSlice"
 import axios from "axios"
-import { useEffect } from "react"
+import { useEffect, useState } from "react"
 import { useDispatch } from "react-redux"
 import Cookies from "js-cookie"
 import { toast } from "react-toastify"
@@ -9,7 +9,7 @@ import { toast } from "react-toastify"
 const useGetHighligthsJobs = () => {
   const dispatch = useDispatch()
   const token = Cookies.get("token")
-
+  const [loading, setLoading] = useState(true)
 
   useEffect(() => {
     const fetchAllJobs = async () => {
@@ -26,10 +26,13 @@ const useGetHighligthsJobs = () => {
       } catch (error) {
         console.log(error)
         toast.error("failed to fetch please try again")
+      } finally {
+        setLoading(false)
       }
     }
     fetchAllJobs()
   }, [])
+  return [loading]
 }
 
 export default useGetHighligthsJobs

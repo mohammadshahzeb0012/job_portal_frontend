@@ -7,12 +7,13 @@ import { useEffect } from "react"
 import { useSelector } from "react-redux"
 import { useNavigate } from "react-router-dom"
 import useGetHighligthsJobs from "@/hooks/useGetHighligthsJobs"
+import CustomLoader from "./CustomLoader"
 
 const Home = () => {
-  useGetHighligthsJobs()
+  const [loading] = useGetHighligthsJobs()
   const { user } = useSelector(store => store.auth)
   const navigate = useNavigate()
-  
+
   useEffect(() => {
     if (user?.role === 'recruiter') navigate("/admin/companies")
   }, [])
@@ -21,8 +22,13 @@ const Home = () => {
     <div>
       <Navbar />
       <HeroSection />
-      <CategoryCarousel />
-      <LatestJobs />
+      {
+        loading ? <CustomLoader />
+          : <>
+            <CategoryCarousel />
+            <LatestJobs />
+          </>
+      }
       <Footer />
     </div>
   )

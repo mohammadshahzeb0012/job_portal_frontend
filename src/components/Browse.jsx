@@ -13,9 +13,11 @@ import { toast } from "react-toastify";
 import Cookies from "js-cookie"
 import { allJobsSelector } from "@/redux/filTersSelectors";
 import { clearAllFilters } from "@/redux/filterSlice";
+import CustomLoader from "./CustomLoader";
 
 const Browse = () => {
-    useGetAllJobs()
+  const [loading] =  useGetAllJobs()
+
     const dispatch = useDispatch()
     const { allJobs } = useSelector(store => store.jobs)
     const [open, setopen] = useState(false)
@@ -61,7 +63,9 @@ const Browse = () => {
     return (
         <div>
             <Navbar />
-            <div className='w-auto'>
+            {
+                loading ? <CustomLoader />
+                :      <div className='w-auto'>
                 <div className='flex gap-5 mobie-view-jobs'>
                     <div className='w-20% FilterCard-wrraper'>
                         <div className="filter-card-desktop">
@@ -96,7 +100,10 @@ const Browse = () => {
                         </div>
                     </div>
                 </div>
-            </div>
+            </div> 
+            }
+        
+            
 
 
 

@@ -1,4 +1,4 @@
-import { Bookmark } from "lucide-react"
+import { Bookmark, Loader2 } from "lucide-react"
 import { Button } from "./ui/button"
 import { Avatar, AvatarImage } from "@radix-ui/react-avatar"
 import { Badge } from "./ui/badge"
@@ -8,7 +8,7 @@ import EpochToHuman from "@/utils/EpochToHuman"
 const Job = ({ job, handelSveForLAter, btnDisbleID }) => {
     const navigate = useNavigate()
     return (
-          
+
         <div className='p-5 rounded-md shadow-xl bg-white border border-gray-100 flex flex-col justify-between'>
             <div className='flex items-center justify-between'>
                 <p className='text-sm text-gray-500'>{EpochToHuman(job?.createdAt)}</p>
@@ -36,14 +36,20 @@ const Job = ({ job, handelSveForLAter, btnDisbleID }) => {
             <div className='flex items-center gap-2 mt-4'>
                 <Badge className={'text-blue-700 font-bold'} variant="ghost"> {job?.position} Positions</Badge>
                 <Badge className={'text-[#F83002] font-bold'} variant="ghost">{job?.jobType}</Badge>
-                <Badge className={'text-[#7209b7] font-bold'} variant="ghost">{job?.salary ? `₹ ${job.salary}` : "NA" }</Badge>
+                <Badge className={'text-[#7209b7] font-bold'} variant="ghost">{job?.salary ? `₹ ${job.salary}` : "NA"}</Badge>
             </div>
             <div className='flex justify-between items-center gap-4 mt-4'>
                 <Button onClick={() => navigate(`/description/${job?._id}`)} variant="outline">Details</Button>
                 <Button
                     disabled={btnDisbleID === job._id}
                     onClick={() => handelSveForLAter(job._id, job.saveForLater)}
-                    className={`${job?.saveForLater ? "bg-green-400" : "bg-[#7209b7]"} `}>{job?.saveForLater ? "Saved" : "Save for Later"}</Button>
+                    className={`${job?.saveForLater ? "bg-green-400" : "bg-[#7209b7]"} `}>
+                    {
+                    btnDisbleID  === job._id ?
+                    <Loader2 className="animate-spin" />
+                   : job?.saveForLater ? "Saved" : "Save for Later"
+                    }
+                </Button>
             </div>
         </div>
     )
