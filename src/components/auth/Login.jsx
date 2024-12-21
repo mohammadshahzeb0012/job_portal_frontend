@@ -48,6 +48,7 @@ const Login = () => {
       if (res.data.success) {
         dispatch(setUser(res.data.user))
         Cookies.set('user_data', JSON.stringify(res.data.user))
+        Cookies.set('token', res.data.token)
         navigate("/")
       }
     } catch (error) {
